@@ -1,51 +1,50 @@
 package com.example.app.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "MILK_TRANSACTIONS")
+@Table(name = "milk_transactions")
 public class Transaction {
 
     @Id
-    @Column(name = "ID")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "CUST_ID", nullable = false)
+    @NotNull
+    @Column(name = "cust_id", nullable = false)
     private Long custId;
 
-    @Column(name = "PROD_ID", nullable = false)
+    @NotNull
+    @Column(name = "prod_id", nullable = false)
     private Long prodId;
 
-    @Column(name = "QUANTITY", nullable = false)
+    @NotNull
+    @Column(name = "quantity", nullable = false)
     private Integer quantity;
 
-    @Column(name = "PRICE", nullable = false)
+    @NotNull
+    @Column(name = "price", nullable = false)
     private BigDecimal price;
 
-    @Column(name = "T_DATE", nullable = false)
+    @NotNull
+    @Column(name = "t_date", nullable = false)
     private LocalDate tDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CUST_ID", insertable = false, updatable = false)
+    @JoinColumn(name = "cust_id", insertable = false, updatable = false)
     private Customer customer;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "PROD_ID", insertable = false, updatable = false)
+    @JoinColumn(name = "prod_id", insertable = false, updatable = false)
     private Product product;
 
     public Transaction() {
     }
 
-    public Transaction(Long id, Long custId, Long prodId, Integer quantity, BigDecimal price, LocalDate tDate) {
-        this.id = id;
+    public Transaction(Long custId, Long prodId, Integer quantity, BigDecimal price, LocalDate tDate) {
         this.custId = custId;
         this.prodId = prodId;
         this.quantity = quantity;
@@ -93,11 +92,11 @@ public class Transaction {
         this.price = price;
     }
 
-    public LocalDate getTDate() {
+    public LocalDate gettDate() {
         return tDate;
     }
 
-    public void setTDate(LocalDate tDate) {
+    public void settDate(LocalDate tDate) {
         this.tDate = tDate;
     }
 
