@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/header :: head('Milk Management System - Home')"></head>
+<body>
+<nav th:replace="layout/header :: navbar"></nav>
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="jumbotron bg-light p-5 rounded">
+                <h1 class="display-4">Welcome to Milk Management System</h1>
+                <p class="lead">Manage your customers, products, and transactions efficiently.</p>
+                <hr class="my-4">
+                <p>Select an option from the menu below to get started.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Customers</h5>
+                    <p class="card-text">Manage customer records - add, edit, and delete customers.</p>
+                    <a th:href="@{/customers}" class="btn btn-primary">Go to Customers</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Products</h5>
+                    <p class="card-text">Manage product catalog - add, edit, and delete products.</p>
+                    <a th:href="@{/products}" class="btn btn-primary">Go to Products</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Transactions</h5>
+                    <p class="card-text">Record and manage sales transactions.</p>
+                    <a th:href="@{/transactions}" class="btn btn-primary">Go to Transactions</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="layout/footer :: footer"></footer>
+<script th:replace="layout/footer :: scripts"></script>
+</body>
+</html>

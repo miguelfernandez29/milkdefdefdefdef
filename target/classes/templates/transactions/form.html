@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/header :: head(${pageTitle})"></head>
+<body>
+<nav th:replace="layout/header :: navbar"></nav>
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <h2 th:text="${pageTitle}">Transaction Form</h2>
+        </div>
+    </div>
+
+    <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show" role="alert">
+        <span th:text="${errorMessage}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <form th:action="@{/transactions/save}" th:object="${transaction}" method="post" id="transactionForm">
+                        <input type="hidden" name="mode" th:value="${mode}">
+
+                        <div class="mb-3">
+                            <label for="id" class="form-label">ID *</label>
+                            <input type="number" class="form-control" id="id" th:field="*{id}"
+                                   th:readonly="${mode == 'editing'}" required>
+                            <div th:if="${#fields.hasErrors('id')}" class="text-danger" th:errors="*{id}"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="custId" class="form-label">Customer *</label>
+                            <select class="form-select" id="custId" th:field="*{custId}" required>
+                                <option value="">-- Select Customer --</option>
+                                <option th:each="customer : ${customers}"
+                                        th:value="${customer.id}"
+                                        th:text="${customer.id + ' - ' + customer.name}"></option>
+                            </select>
+                            <div th:if="${#fields.hasErrors('custId')}" class="text-danger" th:errors="*{custId}"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="prodId" class="form-label">Product *</label>
+                            <select class="form-select" id="prodId" th:field="*{prodId}" required onchange="calculatePrice()">
+                                <option value="">-- Select Product --</option>
+                                <option th:each="product : ${products}"
+                                        th:value="${product.id}"
+                                        th:data-price="${product.price}"
+                                        th:text="${product.id + ' - ' + product.name + ' ($' + product.price + ')'}"></option>
+                            </select>
+                            <div th:if="${#fields.hasErrors('prodId')}" class="text-danger" th:errors="*{prodId}"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="quantity" class="form-label">Quantity *</label>
+                            <input type="number" class="form-control" id="quantity" th:field="*{quantity}"
+                                   required min="1" onchange="calculatePrice()">
+                            <div th:if="${#fields.hasErrors('quantity')}" class="text-danger" th:errors="*{quantity}"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="price" class="form-label">Total Price (Calculated)</label>
+                            <input type="number" step="0.01" class="form-control" id="price" th:field="*{price}" readonly>
+                            <small class="text-muted">Price is automatically calculated based on product price × quantity</small>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="tDate" class="form-label">Transaction Date *</label>
+                            <input type="date" class="form-control" id="tDate" th:field="*{TDate}" required>
+                            <div th:if="${#fields.hasErrors('TDate')}" class="text-danger" th:errors="*{TDate}"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <button type="submit" class="btn btn-primary">Save</button>
+                            <a th:href="@{/transactions}" class="btn btn-secondary">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="layout/footer :: footer"></footer>
+<script th:replace="layout/footer :: scripts"></script>
+<script>
+    function calculatePrice() {
+        var prodSelect = document.getElementById('prodId');
+        var quantityInput = document.getElementById('quantity');
+        var priceInput = document.getElementById('price');
+
+        var selectedOption = prodSelect.options[prodSelect.selectedIndex];
+        var productPrice = selectedOption.getAttribute('data-price');
+        var quantity = quantityInput.value;
+
+        if (productPrice && quantity) {
+            var totalPrice = parseFloat(productPrice) * parseInt(quantity);
+            priceInput.value = totalPrice.toFixed(2);
+        } else {
+            priceInput.value = '';
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        calculatePrice();
+    });
+</script>
+</body>
+</html>

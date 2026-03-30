@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/header :: head(${pageTitle})"></head>
+<body>
+<nav th:replace="layout/header :: navbar"></nav>
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <h2 th:text="${pageTitle}">Customer Form</h2>
+        </div>
+    </div>
+
+    <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show" role="alert">
+        <span th:text="${errorMessage}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <form th:action="@{/customers/save}" th:object="${customer}" method="post">
+                        <input type="hidden" name="mode" th:value="${mode}">
+
+                        <div class="mb-3">
+                            <label for="id" class="form-label">ID *</label>
+                            <input type="number" class="form-control" id="id" th:field="*{id}"
+                                   th:readonly="${mode == 'editing'}" required>
+                            <div th:if="${#fields.hasErrors('id')}" class="text-danger" th:errors="*{id}"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Name *</label>
+                            <input type="text" class="form-control" id="name" th:field="*{name}" required>
+                            <div th:if="${#fields.hasErrors('name')}" class="text-danger" th:errors="*{name}"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="add1" class="form-label">Address Line 1 *</label>
+                            <input type="text" class="form-control" id="add1" th:field="*{add1}" required>
+                            <div th:if="${#fields.hasErrors('add1')}" class="text-danger" th:errors="*{add1}"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="add2" class="form-label">Address Line 2 *</label>
+                            <input type="text" class="form-control" id="add2" th:field="*{add2}" required>
+                            <div th:if="${#fields.hasErrors('add2')}" class="text-danger" th:errors="*{add2}"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="pincode" class="form-label">Pincode *</label>
+                            <input type="number" class="form-control" id="pincode" th:field="*{pincode}" required>
+                            <div th:if="${#fields.hasErrors('pincode')}" class="text-danger" th:errors="*{pincode}"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="phone" class="form-label">Phone *</label>
+                            <input type="number" class="form-control" id="phone" th:field="*{phone}" required>
+                            <div th:if="${#fields.hasErrors('phone')}" class="text-danger" th:errors="*{phone}"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <button type="submit" class="btn btn-primary">Save</button>
+                            <a th:href="@{/customers}" class="btn btn-secondary">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="layout/footer :: footer"></footer>
+<script th:replace="layout/footer :: scripts"></script>
+</body>
+</html>

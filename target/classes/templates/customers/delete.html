@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/header :: head('Delete Customer')"></head>
+<body>
+<nav th:replace="layout/header :: navbar"></nav>
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <h2>Delete Customer</h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <div class="alert alert-warning">
+                        <strong>Warning!</strong> Are you sure you want to delete this customer?
+                    </div>
+
+                    <table class="table">
+                        <tr>
+                            <th>ID:</th>
+                            <td th:text="${customer.id}"></td>
+                        </tr>
+                        <tr>
+                            <th>Name:</th>
+                            <td th:text="${customer.name}"></td>
+                        </tr>
+                        <tr>
+                            <th>Address Line 1:</th>
+                            <td th:text="${customer.add1}"></td>
+                        </tr>
+                        <tr>
+                            <th>Address Line 2:</th>
+                            <td th:text="${customer.add2}"></td>
+                        </tr>
+                        <tr>
+                            <th>Pincode:</th>
+                            <td th:text="${customer.pincode}"></td>
+                        </tr>
+                        <tr>
+                            <th>Phone:</th>
+                            <td th:text="${customer.phone}"></td>
+                        </tr>
+                    </table>
+
+                    <form th:action="@{/customers/delete/{id}(id=${customer.id})}" method="post">
+                        <button type="submit" class="btn btn-danger">Confirm Delete</button>
+                        <a th:href="@{/customers}" class="btn btn-secondary">Cancel</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="layout/footer :: footer"></footer>
+<script th:replace="layout/footer :: scripts"></script>
+</body>
+</html>
